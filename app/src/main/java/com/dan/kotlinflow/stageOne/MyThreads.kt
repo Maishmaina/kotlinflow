@@ -1,4 +1,4 @@
-package com.dan.kotlinflow
+package com.dan.kotlinflow.stageOne
 
 import java.lang.Exception
 
@@ -24,10 +24,11 @@ Thread.sleep(1000);
 }
 
 fun main(args:Array<String>){
-var th=MyThreads("thread1")
+
+var th= MyThreads("thread1")
     th.start()
 
-    var th1=MyThreads("thread2")
+    var th1= MyThreads("thread2")
     th1.start()
     th1.join()
     println("This is multi-thread")
