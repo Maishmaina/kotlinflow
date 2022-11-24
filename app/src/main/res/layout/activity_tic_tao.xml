@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#d3d3"
+    android:background="@color/tickbg"
     android:gravity="center"
     tools:context=".TicTao">
 
@@ -19,21 +19,28 @@
             android:layout_width="40pt"
             android:layout_height="40pt"
             android:layout_marginLeft="3pt"
-            android:text="Button" />
+            android:backgroundTint="@color/white"
+            android:onClick="btClicked"
+            android:text=""
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/but2"
             android:layout_width="40pt"
             android:layout_height="40pt"
             android:layout_marginLeft="3pt"
-            android:text="Button" />
+            android:onClick="btClicked"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"/>
 
         <Button
             android:id="@+id/but3"
             android:layout_width="40pt"
             android:layout_marginLeft="3pt"
             android:layout_height="40pt"
-            android:text="Button" />
+            android:onClick="btClicked"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black" />
     </TableRow>
     <TableRow
         android:layout_width="match_parent"
@@ -46,21 +53,27 @@
             android:layout_width="40pt"
             android:layout_height="40pt"
             android:layout_marginLeft="3pt"
-            android:text="Button" />
+            android:onClick="btClicked"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/but5"
             android:layout_width="40pt"
             android:layout_height="40pt"
             android:layout_marginLeft="3pt"
-            android:text="Button" />
+            android:onClick="btClicked"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/but6"
             android:layout_width="40pt"
             android:layout_marginLeft="3pt"
             android:layout_height="40pt"
-            android:text="Button" />
+            android:onClick="btClicked"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black" />
     </TableRow>
     <TableRow
         android:layout_width="match_parent"
@@ -72,22 +85,28 @@
             android:id="@+id/but7"
             android:layout_width="40pt"
             android:layout_height="40pt"
+            android:onClick="btClicked"
             android:layout_marginLeft="3pt"
-            android:text="Button" />
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/but8"
             android:layout_width="40pt"
             android:layout_height="40pt"
             android:layout_marginLeft="3pt"
-            android:text="Button" />
+            android:onClick="btClicked"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/but9"
             android:layout_width="40pt"
             android:layout_marginLeft="3pt"
             android:layout_height="40pt"
-            android:text="Button" />
+            android:onClick="btClicked"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black" />
     </TableRow>
 
 </TableLayout>
