@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_tic_tao.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class TicTao : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +41,7 @@ class TicTao : AppCompatActivity() {
             btselected.setBackgroundResource(R.color.blue)
             player1.add(cellid)
             activePlay=2
+            autoPlay()
         }else{
             btselected.text="O"
             btselected.setBackgroundResource(R.color.darkGreen)
@@ -109,10 +113,77 @@ class TicTao : AppCompatActivity() {
         }
 
         if(win==1){
+            play1WinsCount+=1
             Toast.makeText(this,"Player One is Winner",Toast.LENGTH_LONG).show()
+            restartGame()
         }else if(win==2){
+            play2WinsCount+=1
             Toast.makeText(this,"Player Two is Winner",Toast.LENGTH_LONG).show()
+            restartGame()
 
         }
     }
+    fun autoPlay(){
+        var emptyCell=ArrayList<Int>();
+        for (cellid:Int in 1..9){
+            if(!(player1.contains(cellid)) || player2.contains(cellid)){
+                emptyCell.add(cellid)
+            }
+        }
+        if(emptyCell.size==0){
+            restartGame()
+        }
+        val r= Random()
+        val randIndex:Int=r.nextInt(emptyCell.size)
+        val cellid:Int=emptyCell[randIndex]
+
+        var btselected:Button?
+
+        btselected= when(cellid){
+            1->but1
+            2->but2
+            3->but3
+            4->but4
+            5->but5
+            6->but6
+            7->but7
+            8->but8
+            9->but9
+            else-> {but1}
+        }
+        playGame(cellid,btselected)
+
+
+
+    }
+    var play1WinsCount=0
+    var play2WinsCount=0
+
+     fun restartGame() {
+         activePlay = 1
+         player1.clear()
+         player2.clear()
+         for (cellid in 1..9) {
+             var btselected: Button?
+
+             btselected = when (cellid) {
+                 1 -> but1
+                 2 -> but2
+                 3 -> but3
+                 4 -> but4
+                 5 -> but5
+                 6 -> but6
+                 7 -> but7
+                 8 -> but8
+                 9 -> but9
+                 else -> {
+                     but1
+                 }
+             }
+             btselected!!.text=""
+             btselected!!.setBackgroundResource(R.color.white);
+             btselected.isEnabled=true
+         }
+         Toast.makeText(this,"Player 1: $play1WinsCount, Player 2: $play2WinsCount",Toast.LENGTH_LONG).show()
+     }
 }
