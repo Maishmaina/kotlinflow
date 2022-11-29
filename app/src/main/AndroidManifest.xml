@@ -9,16 +9,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinFlow">
-        <activity android:name=".TicTao" android:exported="true">
+        <activity
+            android:name=".NumCalculator"
+            android:exported="true"
+            android:label="@string/title_activity_num_calculator"
+            android:theme="@style/Theme.KotlinFlow.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter></activity>
+            </intent-filter>
+        </activity>
         <activity
-            android:name=".MainActivity">
+            android:name=".TicTao"
+            android:exported="true">
 
         </activity>
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>
