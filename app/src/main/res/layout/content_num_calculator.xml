@@ -7,7 +7,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
     <EditText
         android:layout_weight="1"
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editshowdata"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/gray"
@@ -27,38 +27,42 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/button90"
+                android:id="@+id/buAc"
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
+                android:onClick="butNumberEvent"
                 android:background="@color/whiteback"
                 android:text="A/C" />
 
             <Button
-                android:id="@+id/button6Q"
+                android:id="@+id/buplusminus"
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
+                android:onClick="butNumberEvent"
                 android:background="@color/whiteback"
                 android:text="+/-" />
 
             <Button
-                android:id="@+id/button51"
+                android:id="@+id/bupercent"
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
+                android:onClick="butNumberEvent"
                 android:background="@color/whiteback"
                 android:text="%" />
 
             <Button
-                android:id="@+id/button41"
+                android:id="@+id/budiv"
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
+                android:onClick="butNumberEvent"
                 android:textColor="@color/white"
                 android:background="@color/yellow"
                 android:text="/" />
@@ -69,38 +73,42 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/button7"
+                android:id="@+id/bu7"
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
+                android:onClick="butNumberEvent"
                 android:background="@color/whiteback"
                 android:text="7" />
 
             <Button
-                android:id="@+id/button16"
+                android:id="@+id/bu8"
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
+                android:onClick="butNumberEvent"
                 android:background="@color/whiteback"
                 android:text="8" />
 
             <Button
-                android:id="@+id/button512"
+                android:id="@+id/bu9"
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
+                android:onClick="butNumberEvent"
                 android:background="@color/whiteback"
                 android:text="9" />
 
             <Button
-                android:id="@+id/button4X"
+                android:id="@+id/bumult"
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
+                android:onClick="buOpEvent"
                 android:textColor="@color/white"
                 android:background="@color/yellow"
                 android:text="*" />
@@ -111,38 +119,42 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/button8"
+                android:id="@+id/bu4"
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
+                android:onClick="butNumberEvent"
                 android:background="@color/whiteback"
                 android:text="4" />
 
             <Button
-                android:id="@+id/button65"
+                android:id="@+id/bu5"
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
+                android:onClick="butNumberEvent"
                 android:background="@color/whiteback"
                 android:text="5" />
 
             <Button
-                android:id="@+id/button53"
+                android:id="@+id/bu6"
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
+                android:onClick="butNumberEvent"
                 android:background="@color/whiteback"
                 android:text="6" />
 
             <Button
-                android:id="@+id/button4M"
+                android:id="@+id/buminu"
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
+                android:onClick="buOpEvent"
                 android:textColor="@color/white"
                 android:background="@color/yellow"
                 android:text="-" />
@@ -153,38 +165,42 @@
             android:layout_height="match_parent" >
 
             <Button
-                android:id="@+id/button9"
+                android:id="@+id/bu1"
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
+                android:onClick="butNumberEvent"
                 android:background="@color/whiteback"
                 android:text="1" />
 
             <Button
-                android:id="@+id/button6"
+                android:id="@+id/bu2"
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
+                android:onClick="butNumberEvent"
                 android:background="@color/whiteback"
                 android:text="2" />
 
             <Button
-                android:id="@+id/button5"
+                android:id="@+id/bu3"
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
+                android:onClick="butNumberEvent"
                 android:background="@color/whiteback"
                 android:text="3" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/buplus"
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
+                android:onClick="buOpEvent"
                 android:textColor="@color/white"
                 android:background="@color/yellow"
                 android:text="+" />
@@ -198,30 +214,32 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/bu0"
             android:layout_width="60pt"
             android:layout_height="30pt"
             android:layout_weight="1"
             android:textSize="18sp"
+            android:onClick="butNumberEvent"
             android:background="@color/whiteback"
             android:text="0" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/budot"
             android:layout_width="30pt"
             android:layout_height="30pt"
             android:layout_weight="1"
             android:textSize="18sp"
+            android:onClick="butNumberEvent"
             android:background="@color/whiteback"
             android:text="." />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/buequal"
             android:layout_width="22pt"
             android:layout_height="30pt"
             android:layout_weight="1"
             android:textSize="18sp"
-            android:onClick="butNumberEvent"
+            android:onClick="buOpEqual"
             android:textColor="@color/white"
             android:background="@color/yellow"
             android:text="=" />
