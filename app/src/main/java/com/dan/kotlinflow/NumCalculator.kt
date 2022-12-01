@@ -83,6 +83,7 @@ if(isNewOprt===true){
         oldNum=editshowdata.text.toString()
         isNewOprt= true
     }
+
     fun buOpEqual(view: View){
         var newNumber=editshowdata.text.toString()
         var resuls:Double?=null
