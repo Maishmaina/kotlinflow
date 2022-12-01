@@ -92,7 +92,6 @@ if(isNewOprt===true){
             }
             "/"->{
                 resuls=oldNum.toDouble()/newNumber.toDouble()
-
             }
             "-"->{
                 resuls=oldNum.toDouble()-newNumber.toDouble()
@@ -100,10 +99,18 @@ if(isNewOprt===true){
             }
             "+"->{
                 resuls=oldNum.toDouble()+newNumber.toDouble()
-
             }
         }
         editshowdata.setText(resuls.toString())
+        isNewOprt=true
+    }
+    fun buPercent(view: View){
+        var number:Double=editshowdata.text.toString().toDouble()/100
+        editshowdata.setText(number.toString())
+        isNewOprt=true
+    }
+    fun buClean(view: View){
+        editshowdata.setText("0");
         isNewOprt=true
     }
 

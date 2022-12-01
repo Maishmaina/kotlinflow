@@ -29,8 +29,8 @@
 
             <Button
                 android:id="@+id/buAc"
-                android:layout_width="30pt"
-                android:layout_height="30pt"
+                android:layout_width="20pt"
+                android:layout_height="20pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
                 android:layout_marginLeft="1pt"
@@ -41,8 +41,8 @@
             <Button
                 android:layout_marginLeft="1pt"
                 android:id="@+id/buplusminus"
-                android:layout_width="30pt"
-                android:layout_height="30pt"
+                android:layout_width="20pt"
+                android:layout_height="20pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
                 android:onClick="butNumberEvent"
@@ -52,8 +52,8 @@
             <Button
                 android:layout_marginLeft="1pt"
                 android:id="@+id/bupercent"
-                android:layout_width="30pt"
-                android:layout_height="30pt"
+                android:layout_width="20pt"
+                android:layout_height="20pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
                 android:onClick="buPercent"
@@ -63,8 +63,8 @@
             <Button
                 android:layout_marginLeft="1pt"
                 android:id="@+id/budiv"
-                android:layout_width="30pt"
-                android:layout_height="30pt"
+                android:layout_width="20pt"
+                android:layout_height="20pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
                 android:onClick="buOpEvent"
@@ -80,8 +80,8 @@
 
             <Button
                 android:id="@+id/bu7"
-                android:layout_width="30pt"
-                android:layout_height="30pt"
+                android:layout_width="20pt"
+                android:layout_height="20pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
                 android:layout_marginLeft="1pt"
@@ -91,8 +91,8 @@
 
             <Button
                 android:id="@+id/bu8"
-                android:layout_width="30pt"
-                android:layout_height="30pt"
+                android:layout_width="20pt"
+                android:layout_height="20pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
                 android:layout_marginLeft="1pt"
@@ -102,8 +102,8 @@
 
             <Button
                 android:id="@+id/bu9"
-                android:layout_width="30pt"
-                android:layout_height="30pt"
+                android:layout_width="20pt"
+                android:layout_height="20pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
                 android:layout_marginLeft="1pt"
@@ -114,8 +114,8 @@
             <Button
                 android:layout_marginLeft="1pt"
                 android:id="@+id/bumult"
-                android:layout_width="30pt"
-                android:layout_height="30pt"
+                android:layout_width="20pt"
+                android:layout_height="20pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
                 android:onClick="buOpEvent"
@@ -131,8 +131,8 @@
 
             <Button
                 android:id="@+id/bu4"
-                android:layout_width="30pt"
-                android:layout_height="30pt"
+                android:layout_width="20pt"
+                android:layout_height="20pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
                 android:layout_marginLeft="1pt"
@@ -142,8 +142,8 @@
 
             <Button
                 android:id="@+id/bu5"
-                android:layout_width="30pt"
-                android:layout_height="30pt"
+                android:layout_width="20pt"
+                android:layout_height="20pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
                 android:layout_marginLeft="1pt"
@@ -153,8 +153,8 @@
 
             <Button
                 android:id="@+id/bu6"
-                android:layout_width="30pt"
-                android:layout_height="30pt"
+                android:layout_width="20pt"
+                android:layout_height="20pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
                 android:layout_marginLeft="1pt"
@@ -164,8 +164,8 @@
 
             <Button
                 android:id="@+id/buminu"
-                android:layout_width="30pt"
-                android:layout_height="30pt"
+                android:layout_width="20pt"
+                android:layout_height="20pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
                 android:layout_marginLeft="1pt"
@@ -182,8 +182,8 @@
 
             <Button
                 android:id="@+id/bu1"
-                android:layout_width="30pt"
-                android:layout_height="30pt"
+                android:layout_width="20pt"
+                android:layout_height="20pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
                 android:layout_marginLeft="1pt"
@@ -193,8 +193,8 @@
 
             <Button
                 android:id="@+id/bu2"
-                android:layout_width="30pt"
-                android:layout_height="30pt"
+                android:layout_width="20pt"
+                android:layout_height="20pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
                 android:layout_marginLeft="1pt"
@@ -204,8 +204,8 @@
 
             <Button
                 android:id="@+id/bu3"
-                android:layout_width="30pt"
-                android:layout_height="30pt"
+                android:layout_width="20pt"
+                android:layout_height="20pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
                 android:layout_marginLeft="1pt"
@@ -215,8 +215,8 @@
 
             <Button
                 android:id="@+id/buplus"
-                android:layout_width="30pt"
-                android:layout_height="30pt"
+                android:layout_width="20pt"
+                android:layout_height="20pt"
                 android:layout_weight="1"
                 android:textSize="18sp"
                 android:layout_marginLeft="1pt"
@@ -235,8 +235,8 @@
 
         <Button
             android:id="@+id/bu0"
-            android:layout_width="60pt"
-            android:layout_height="30pt"
+            android:layout_width="20pt"
+            android:layout_height="20pt"
             android:layout_weight="1"
             android:textSize="18sp"
             android:layout_marginLeft="1pt"
@@ -246,8 +246,8 @@
 
         <Button
             android:id="@+id/budot"
-            android:layout_width="30pt"
-            android:layout_height="30pt"
+            android:layout_width="20pt"
+            android:layout_height="20pt"
             android:layout_weight="1"
             android:textSize="18sp"
             android:layout_marginLeft="1pt"
@@ -257,8 +257,8 @@
 
         <Button
             android:id="@+id/buequal"
-            android:layout_width="22pt"
-            android:layout_height="30pt"
+            android:layout_width="6pt"
+            android:layout_height="20pt"
             android:layout_weight="1"
             android:textSize="18sp"
             android:layout_marginLeft="1pt"
