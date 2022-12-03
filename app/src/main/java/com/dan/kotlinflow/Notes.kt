@@ -1,8 +1,11 @@
 package com.dan.kotlinflow
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -15,8 +18,6 @@ class Notes : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notes)
-
-
         //item notes
         listNote.add(NoteModel(1,"Awake","A computer is a digital electronic machine that can be programmed to carry out sequences of arithmetic or logical operations (computation) automatically. Modern computers can perform generic sets of operations known as programs. These programs enable computers to perform a wide range of tasks"))
         listNote.add(NoteModel(2,"Code","A computer is a digital electronic machine that can be programmed to carry out sequences of arithmetic or logical operations (computation) automatically. Modern computers can perform generic sets of operations known as programs. These programs enable computers to perform a wide range of tasks"))
@@ -25,6 +26,21 @@ class Notes : AppCompatActivity() {
         var myNotesAdapter =MyNotesAdapter(listNote)
         Log.d("response",listNote.toString())
         lvNote.adapter=myNotesAdapter
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+         when(item.itemId){
+             R.id.addNote->{
+                 var int=Intent(this,AddnewNote::class.java)
+                 startActivity(int)
+             }
+         }
+        return super.onOptionsItemSelected(item)
     }
 
     inner class MyNotesAdapter:BaseAdapter{
