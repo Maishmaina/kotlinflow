@@ -1,5 +1,7 @@
 package com.dan.kotlinflow
 
+import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +11,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.SearchView
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_notes.*
 import kotlinx.android.synthetic.main.ticket_note.view.*
 
@@ -30,6 +34,20 @@ class Notes : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu,menu)
+
+        var sv=menu!!.findItem(R.id.app_bar_search).actionView as SearchView
+        var sm=getSystemService(Context.SEARCH_SERVICE)as SearchManager
+        sv.setSearchableInfo(sm.getSearchableInfo(componentName))
+
+        sv.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                Toast.makeText(applicationContext,query,Toast.LENGTH_LONG).show()
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
         return super.onCreateOptionsMenu(menu)
     }
 
