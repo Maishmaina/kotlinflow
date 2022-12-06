@@ -2,8 +2,11 @@ package com.dan.kotlinflow
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.database.sqlite.SQLiteQueryBuilder
+import android.media.projection.MediaProjection
 import android.widget.Toast
 
 class DbManager {
@@ -42,5 +45,12 @@ class DbManager {
     fun Insert(values: ContentValues):Long{
      var ID=sqlData!!.insert(dbTable,"",values)
         return ID
+    }
+
+    fun Query(projection: Array<String>,selection:String,selectionArgs:Array<String>,SortOrder:String): Cursor {
+      var db=SQLiteQueryBuilder()
+        db.tables=dbTable
+         var mycursor=db.query(sqlData,projection,selection,selectionArgs,null,null,SortOrder)
+        return mycursor
     }
 }

@@ -20,7 +20,6 @@ class AddnewNote : AppCompatActivity() {
         var values=ContentValues()
         values.put("Title",editTitle.text.toString())
         values.put("Description",editdetails.text.toString())
-
         var ID=DbManager.Insert(values)
 
         if (ID>0){

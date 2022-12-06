@@ -1,5 +1,6 @@
 package com.dan.kotlinflow
 
+import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
@@ -22,26 +23,41 @@ class Notes : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notes)
-        //item notes
-        listNote.add(NoteModel(1,"Awake","A computer is a digital electronic machine that can be programmed to carry out sequences of arithmetic or logical operations (computation) automatically. Modern computers can perform generic sets of operations known as programs. These programs enable computers to perform a wide range of tasks"))
-        listNote.add(NoteModel(2,"Code","A computer is a digital electronic machine that can be programmed to carry out sequences of arithmetic or logical operations (computation) automatically. Modern computers can perform generic sets of operations known as programs. These programs enable computers to perform a wide range of tasks"))
-        listNote.add(NoteModel(3,"Money","A computer is a digital electronic machine that can be programmed to carry out sequences of arithmetic or logical operations (computation) automatically. Modern computers can perform generic sets of operations known as programs. These programs enable computers to perform a wide range of tasks"))
+//loasd data from database sqlite
+    LoadQuery("%")
 
-        var myNotesAdapter =MyNotesAdapter(listNote)
-        Log.d("response",listNote.toString())
-        lvNote.adapter=myNotesAdapter
+
     }
+@SuppressLint("Range")
+fun LoadQuery(title:String){
+    var dbManager=DbManager(this)
+    var projection= arrayOf("ID","title","Description")
+    var selectionArgs= arrayOf(title)
+    var cursor=dbManager.Query(projection,"title like ?",selectionArgs,"title" )
+    if (cursor.moveToFirst()){
+        listNote.clear()
+        do {
+            var ID= cursor.getInt(cursor.getColumnIndex("ID"))
+            var Title= cursor.getString(cursor.getColumnIndex("title"))
+            var Description= cursor.getString(cursor.getColumnIndex("Description"))
 
+            listNote.add(NoteModel(ID,Title,Description))
+        } while (cursor.moveToNext())
+
+    }
+    var myNotesAdapter =MyNotesAdapter(listNote)
+    lvNote.adapter=myNotesAdapter
+}
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu,menu)
 
         var sv=menu!!.findItem(R.id.app_bar_search).actionView as SearchView
         var sm=getSystemService(Context.SEARCH_SERVICE)as SearchManager
         sv.setSearchableInfo(sm.getSearchableInfo(componentName))
-
         sv.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                Toast.makeText(applicationContext,query,Toast.LENGTH_LONG).show()
+//                Toast.makeText(applicationContext,query,Toast.LENGTH_LONG).show()
+                LoadQuery("%"+query+"%")
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
