@@ -14,7 +14,6 @@ class AddnewNote : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_addnew_note)
-
         var bundle: Bundle? =intent.extras
         try {
             id=bundle!!.getInt("ID",0)
@@ -23,7 +22,6 @@ class AddnewNote : AppCompatActivity() {
                 editdetails.setText(bundle.getString("Description"))
             }
         }catch (ex:Exception){
-
         }
     }
     fun buAddNote(view: View){
