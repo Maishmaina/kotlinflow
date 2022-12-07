@@ -30,19 +30,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+        
+        <Space
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
 
         <ImageView
             android:id="@+id/edit"
-            android:layout_width="40dp"
+            android:layout_width="40pt"
             android:layout_height="40dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/yellow"
             app:srcCompat="@drawable/ic_report_a_problem" />
 
         <ImageView
             android:id="@+id/delete"
-            android:layout_width="40dp"
+            android:layout_width="40pt"
             android:layout_height="40dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/blue"
             app:srcCompat="@drawable/ic_delete" />
 
     </LinearLayout>

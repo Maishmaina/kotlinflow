@@ -23,10 +23,11 @@ class Notes : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notes)
-//loasd data from database sqlite
     LoadQuery("%")
-
-
+    }
+    override fun onResume() {
+        super.onResume()
+        LoadQuery("%");
     }
 @SuppressLint("Range")
 fun LoadQuery(title:String){
@@ -45,7 +46,7 @@ fun LoadQuery(title:String){
         } while (cursor.moveToNext())
 
     }
-    var myNotesAdapter =MyNotesAdapter(listNote)
+    var myNotesAdapter =MyNotesAdapter(this,listNote)
     lvNote.adapter=myNotesAdapter
 }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -56,7 +57,7 @@ fun LoadQuery(title:String){
         sv.setSearchableInfo(sm.getSearchableInfo(componentName))
         sv.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-//                Toast.makeText(applicationContext,query,Toast.LENGTH_LONG).show()
+
                 LoadQuery("%"+query+"%")
                 return false
             }
@@ -66,7 +67,6 @@ fun LoadQuery(title:String){
         })
         return super.onCreateOptionsMenu(menu)
     }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
          when(item.itemId){
              R.id.addNote->{
@@ -76,11 +76,12 @@ fun LoadQuery(title:String){
          }
         return super.onOptionsItemSelected(item)
     }
-
     inner class MyNotesAdapter:BaseAdapter{
         var listNoteAdapter=ArrayList<NoteModel>()
-        constructor(listNotesAdapter:ArrayList<NoteModel>):super(){
+        var  context:Context?=null;
+        constructor(context: Context,listNotesAdapter:ArrayList<NoteModel>):super(){
           this.listNoteAdapter=listNotesAdapter
+            this.context=context
         }
         override fun getCount(): Int {
            return listNoteAdapter.size
@@ -93,15 +94,32 @@ fun LoadQuery(title:String){
         override fun getItemId(position: Int): Long {
            return position.toLong()
         }
-
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             var myView=layoutInflater.inflate(R.layout.ticket_note,null);
             var myNote=listNoteAdapter[position]
             myView.title.text=myNote.noteName
             myView.content.text=myNote.noteDesc
 
+            myView.delete.setOnClickListener(View.OnClickListener {
+                val dbManager=DbManager(context!!)
+                var selectionArgs= arrayOf(myNote.noteId.toString())
+                dbManager.Delete("ID=?",selectionArgs)
+                LoadQuery("%")
+            })
+            myView.edit.setOnClickListener(View.OnClickListener {
+                GoToUpdate(myNote);
+            })
+
             return myView
         }
+
+    }
+    fun GoToUpdate(note:NoteModel){
+        var intent=Intent(this,AddnewNote::class.java)
+        intent.putExtra("ID",note.noteId)
+        intent.putExtra("title",note.noteName)
+        intent.putExtra("Description",note.noteDesc)
+        startActivity(intent)
 
     }
 }

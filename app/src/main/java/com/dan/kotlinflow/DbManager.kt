@@ -53,4 +53,13 @@ class DbManager {
          var mycursor=db.query(sqlData,projection,selection,selectionArgs,null,null,SortOrder)
         return mycursor
     }
+    fun Delete(selection:String,selectionArgs:Array<String>):Int{
+        val del=sqlData!!.delete(dbTable,selection,selectionArgs)
+        return del
+
+    }
+    fun Update(values:ContentValues,selection:String,selectionArgs: Array<String>):Int{
+       var upd=sqlData!!.update(dbTable,values,selection,selectionArgs)
+        return upd
+    }
 }
