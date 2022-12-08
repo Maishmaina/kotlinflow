@@ -8,6 +8,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_addnew_note.*
 import java.lang.Exception
 
+
 class AddnewNote : AppCompatActivity() {
     var dbTable="Notes"
     var id=0
@@ -25,13 +26,10 @@ class AddnewNote : AppCompatActivity() {
         }
     }
     fun buAddNote(view: View){
-
       var DbManager=DbManager(this)
-
         var values=ContentValues()
         values.put("Title",editTitle.text.toString())
         values.put("Description",editdetails.text.toString())
-
         if (id==0) {
             var ID=DbManager.Insert(values)
             if (ID > 0) {

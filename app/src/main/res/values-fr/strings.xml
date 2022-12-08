@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">kotlinFlow</string>
+    <string name="title_activity_num_calculator">NumCalculator</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">Premier fragment</string>
+    <string name="second_fragment_label">Seconde Fragment</string>
+    <string name="next">Prochain</string>
+    <string name="previous">Précédent</string>
+    <string name="hello_first_fragment">Bonjour d\'abord fragment</string>
+    <string name="hello_second_fragment">Bonjour deuxième fragment. Arg: %1$s</string>
+</resources>

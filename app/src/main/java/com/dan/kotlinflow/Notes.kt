@@ -24,10 +24,35 @@ class Notes : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notes)
     LoadQuery("%")
+        Toast.makeText(this,"oncreate", Toast.LENGTH_SHORT).show()
     }
     override fun onResume() {
         super.onResume()
         LoadQuery("%");
+        Toast.makeText(this,"onresume", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Toast.makeText(this,"onstart", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Toast.makeText(this,"onpause", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Toast.makeText(this,"onstop", Toast.LENGTH_SHORT).show()
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        Toast.makeText(this,"ondestroy", Toast.LENGTH_SHORT).show()
+    }
+    override fun onRestart() {
+        super.onRestart()
+        Toast.makeText(this,"onrestart", Toast.LENGTH_SHORT).show()
     }
 @SuppressLint("Range")
 fun LoadQuery(title:String){
@@ -112,7 +137,6 @@ fun LoadQuery(title:String){
 
             return myView
         }
-
     }
     fun GoToUpdate(note:NoteModel){
         var intent=Intent(this,AddnewNote::class.java)
@@ -120,6 +144,5 @@ fun LoadQuery(title:String){
         intent.putExtra("title",note.noteName)
         intent.putExtra("Description",note.noteDesc)
         startActivity(intent)
-
     }
 }
