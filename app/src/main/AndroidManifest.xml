@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dan.kotlinflow">
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -9,21 +10,25 @@
         android:roundIcon="@drawable/icon_note"
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinFlow">
-        <activity android:name=".AddnewNote" android:exported="true"></activity>
+        <activity android:name=".Login" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AddnewNote"
+            android:exported="true" />
         <activity
             android:name=".Notes"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".NumCalculator"
             android:exported="true"
             android:label="@string/title_activity_num_calculator"
-            android:theme="@style/Theme.KotlinFlow.NoActionBar"></activity>
+            android:theme="@style/Theme.KotlinFlow.NoActionBar" />
         <activity
             android:name=".TicTao"
             android:exported="true" />

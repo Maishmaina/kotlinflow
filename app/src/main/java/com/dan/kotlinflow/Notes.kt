@@ -50,6 +50,7 @@ class Notes : AppCompatActivity() {
         super.onDestroy()
         Toast.makeText(this,"ondestroy", Toast.LENGTH_SHORT).show()
     }
+
     override fun onRestart() {
         super.onRestart()
         Toast.makeText(this,"onrestart", Toast.LENGTH_SHORT).show()
