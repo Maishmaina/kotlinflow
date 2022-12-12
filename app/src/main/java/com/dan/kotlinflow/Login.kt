@@ -17,13 +17,17 @@ class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        imageView.setOnClickListener {View.OnClickListener {
-            checkPermission()
 
-        }}
+        imageView.setOnClickListener(View.OnClickListener {
+            checkPermission()
+            Toast.makeText(this,"button login", Toast.LENGTH_LONG).show()
+        })
+
     }
+
     val READPERM:Int=10002
     var PICK_IMAGE_CODE:Int =10003
+
     fun checkPermission(){
         if(Build.VERSION.SDK_INT>=23){
            if(ActivityCompat.checkSelfPermission(this,android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
@@ -53,6 +57,7 @@ class Login : AppCompatActivity() {
     }
 
     fun LoadImage(){
+        Toast.makeText(this,"inside login function", Toast.LENGTH_LONG).show()
          var intent = Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent,PICK_IMAGE_CODE)
     }
