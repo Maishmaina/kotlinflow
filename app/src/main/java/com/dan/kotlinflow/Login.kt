@@ -22,9 +22,7 @@ class Login : AppCompatActivity() {
             checkPermission()
             Toast.makeText(this,"button login", Toast.LENGTH_LONG).show()
         })
-
     }
-
     val READPERM:Int=10002
     var PICK_IMAGE_CODE:Int =10003
 
