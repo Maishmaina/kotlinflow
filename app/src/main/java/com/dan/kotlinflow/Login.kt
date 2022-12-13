@@ -11,17 +11,49 @@ import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_login.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class Login : AppCompatActivity() {
+    private var mAuth: FirebaseAuth? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        mAuth = FirebaseAuth.getInstance()
+        //mAuth?.signInAnonymously()
 
         imageView.setOnClickListener(View.OnClickListener {
             checkPermission()
-            Toast.makeText(this,"button login", Toast.LENGTH_LONG).show()
+
         })
+    }
+//loginToFirebase
+    fun loginToFirebase(email: String,password: String){
+        mAuth!!.createUserWithEmailAndPassword(email,password)
+            .addOnCompleteListener (this){ task->
+                if (task.isSuccessful){
+
+                    UploadImageToFirebase()
+//                    if(currentUser!=null){
+//                        myRef.child("Users").child(SplitString(currentUser.email.toString())).child("Request").setValue(currentUser)
+//                    }
+                }else{
+                    Toast.makeText(this@Login, task.exception?.message,Toast.LENGTH_LONG).show()
+                }
+            }
+    }
+//upload image to firebase
+    fun UploadImageToFirebase(){
+    var currentUser=mAuth!!.currentUser
+
+    val storage=FirebaseStorage.getInstance()
+    val storageRef=storage.getReference("gs://my-firebase-60a1e.appspot.com")
+    val df=SimpleDateFormat("ddMMyyyyHHmmss")
+    val dateObj= Date()
+    val imagePath=currentUser!!.email!!.substring(0,4)+df.format(dateObj)+".jpg"
     }
     val READPERM:Int=10002
     var PICK_IMAGE_CODE:Int =10003
@@ -32,11 +64,9 @@ class Login : AppCompatActivity() {
                ActivityCompat.requestPermissions(this,arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),READPERM)
                return
            }
-
         }
         LoadImage()
     }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -55,7 +85,7 @@ class Login : AppCompatActivity() {
     }
 
     fun LoadImage(){
-        Toast.makeText(this,"inside login function", Toast.LENGTH_LONG).show()
+
          var intent = Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent,PICK_IMAGE_CODE)
     }
@@ -74,6 +104,6 @@ class Login : AppCompatActivity() {
     }
 
     fun buLogin(view: View){
-
+        loginToFirebase(editEmailAddress.text.toString(),editPassword.text.toString())
     }
 }
