@@ -3,7 +3,9 @@ package com.dan.kotlinflow
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,13 +14,19 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_login.*
+import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
 class Login : AppCompatActivity() {
     private var mAuth: FirebaseAuth? = null
+
+    private var database= FirebaseDatabase.getInstance()
+    private var myRef=database?.reference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -45,19 +53,58 @@ class Login : AppCompatActivity() {
                 }
             }
     }
+
 //upload image to firebase
     fun UploadImageToFirebase(){
     var currentUser=mAuth!!.currentUser
-
     val storage=FirebaseStorage.getInstance()
-    val storageRef=storage.getReference("gs://my-firebase-60a1e.appspot.com")
+    val storageRef=storage.getReferenceFromUrl("gs://my-firebase-60a1e.appspot.com")
     val df=SimpleDateFormat("ddMMyyyyHHmmss")
     val dateObj= Date()
     val imagePath=currentUser!!.email!!.substring(0,4)+df.format(dateObj)+".jpg"
+    var imageRef=storageRef.child("images/"+imagePath)
+    imageView.isDrawingCacheEnabled=true
+    imageView.buildDrawingCache()
+
+    val drawable=imageView.drawable as BitmapDrawable
+    val bitmap=drawable.bitmap
+    val baos=ByteArrayOutputStream()
+    bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos)
+    val data=baos.toByteArray()
+    val uploadTask=imageRef.putBytes(data)
+    uploadTask.addOnFailureListener{
+       Toast.makeText(  this, "Upload Failed",Toast.LENGTH_SHORT).show()
+    }.addOnSuccessListener {
+        taskSnapshot->
+        var DownloadURL= taskSnapshot.getMetadata()?.getReference()?.getDownloadUrl().toString();
+
+        myRef!!.child("Users").child(currentUser.uid).child("email").setValue(currentUser.email)
+        myRef!!.child("Users").child(currentUser.uid).child("ProfileImage").setValue(DownloadURL)
+        LoadTweets()
     }
+    }
+    override fun onStart() {
+        super.onStart()
+        LoadTweets()
+    }
+    //fun load current user
+    fun LoadTweets(){
+        var currentUser=mAuth!!.currentUser
+        if(currentUser !=null){
+            var intent= Intent(this,MainActivityTwitter::class.java)
+            intent.putExtra("email",currentUser.email)
+            intent.putExtra("uid",currentUser.uid)
+            startActivity(intent)
+        }
+    }
+    //fun to split string
+    fun SplitString(str: String): String{
+        val array=str.split("@")
+        return array[0]
+    }
+
     val READPERM:Int=10002
     var PICK_IMAGE_CODE:Int =10003
-
     fun checkPermission(){
         if(Build.VERSION.SDK_INT>=23){
            if(ActivityCompat.checkSelfPermission(this,android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
@@ -83,9 +130,7 @@ class Login : AppCompatActivity() {
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
-
     fun LoadImage(){
-
          var intent = Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent,PICK_IMAGE_CODE)
     }
@@ -107,3 +152,5 @@ class Login : AppCompatActivity() {
         loginToFirebase(editEmailAddress.text.toString(),editPassword.text.toString())
     }
 }
+
+
