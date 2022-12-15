@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class Login : AppCompatActivity() {
     private var mAuth: FirebaseAuth? = null
@@ -31,12 +32,13 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         mAuth = FirebaseAuth.getInstance()
-        //mAuth?.signInAnonymously()
+
 
         imageView.setOnClickListener(View.OnClickListener {
             checkPermission()
 
         })
+
     }
 //loginToFirebase
     fun loginToFirebase(email: String,password: String){
