@@ -84,7 +84,9 @@ class Login : AppCompatActivity() {
         myRef!!.child("Users").child(currentUser.uid).child("ProfileImage").setValue(DownloadURL)
         LoadTweets()
     }
+
     }
+
     override fun onStart() {
         super.onStart()
         LoadTweets()
