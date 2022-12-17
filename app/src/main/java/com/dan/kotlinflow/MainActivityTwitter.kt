@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -177,12 +178,16 @@ class MainActivityTwitter : AppCompatActivity() {
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos)
         val data=baos.toByteArray()
         val uploadTask=imageRef.putBytes(data)
+
         uploadTask.addOnFailureListener{
             Toast.makeText(  this, "Upload Failed", Toast.LENGTH_SHORT).show()
         }.addOnSuccessListener {
                 taskSnapshot->
-             DownloadURL= taskSnapshot.getMetadata()?.getReference()?.getDownloadUrl().toString();
 
+            // DownloadURL= taskSnapshot.getMetadata()?.getReference()?.getDownloadUrl().toString();
+//            DownloadURL=taskSnapshot.storage.downloadUrl.toString()
+            DownloadURL=taskSnapshot.getStorage().getDownloadUrl().getResult().toString()
+            Log.d("Download", DownloadURL!!)
         }
     }
 

@@ -78,8 +78,8 @@ class Login : AppCompatActivity() {
        Toast.makeText(  this, "Upload Failed",Toast.LENGTH_SHORT).show()
     }.addOnSuccessListener {
         taskSnapshot->
-        var DownloadURL= taskSnapshot.getMetadata()?.getReference()?.getDownloadUrl().toString();
-
+//        var DownloadURL= taskSnapshot.getMetadata()?.getReference()?.getDownloadUrl().toString();
+        var DownloadURL=taskSnapshot.storage.downloadUrl.toString();
         myRef!!.child("Users").child(currentUser.uid).child("email").setValue(currentUser.email)
         myRef!!.child("Users").child(currentUser.uid).child("ProfileImage").setValue(DownloadURL)
         LoadTweets()
