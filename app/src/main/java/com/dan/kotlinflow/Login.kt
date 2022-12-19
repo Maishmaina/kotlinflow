@@ -74,15 +74,20 @@ class Login : AppCompatActivity() {
     bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos)
     val data=baos.toByteArray()
     val uploadTask=imageRef.putBytes(data)
-    uploadTask.addOnFailureListener{
-       Toast.makeText(  this, "Upload Failed",Toast.LENGTH_SHORT).show()
-    }.addOnSuccessListener {
-        taskSnapshot->
-//        var DownloadURL= taskSnapshot.getMetadata()?.getReference()?.getDownloadUrl().toString();
-        var DownloadURL=taskSnapshot.storage.downloadUrl.toString();
-        myRef!!.child("Users").child(currentUser.uid).child("email").setValue(currentUser.email)
-        myRef!!.child("Users").child(currentUser.uid).child("ProfileImage").setValue(DownloadURL)
-        LoadTweets()
+    uploadTask.addOnFailureListener {
+        Toast.makeText(this, "Upload Failed", Toast.LENGTH_SHORT).show()
+    }.addOnCompleteListener {
+        if (it.isSuccessful) {
+            it.getResult().getStorage().getDownloadUrl().addOnSuccessListener {
+                var DownloadURL = it.toString()
+                myRef!!.child("Users").child(currentUser.uid).child("email")
+                    .setValue(currentUser.email)
+                myRef!!.child("Users").child(currentUser.uid).child("ProfileImage")
+                    .setValue(DownloadURL)
+                LoadTweets()
+
+            }
+        }
     }
 
     }

@@ -13,11 +13,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Toast
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main_twitter.*
 import kotlinx.android.synthetic.main.add_twitter.view.*
+import kotlinx.android.synthetic.main.single_tweet.view.*
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
@@ -28,7 +34,7 @@ class MainActivityTwitter : AppCompatActivity() {
     private var myRef=database?.reference
 
     var ListTweets=ArrayList<TwitterModel>()
-    var adpater:MyTweetAdpater?=null
+    var adapter:MyTweetAdpater?=null
     var myemail:String?=null
     var UserUID: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,14 +47,9 @@ class MainActivityTwitter : AppCompatActivity() {
             UserUID=b.getString("uid")
         }
         //dummy data source
-        ListTweets.add(TwitterModel("0","one", "url", "add"))
-        ListTweets.add(TwitterModel("0","one", "url", "loading"))
-        ListTweets.add(TwitterModel("0","one", "url", "daniel"))
-        ListTweets.add(TwitterModel("0","one", "url", "daniel"))
-        ListTweets.add(TwitterModel("0","one", "url", "daniel"))
-
-        adpater= MyTweetAdpater(this,ListTweets)
-        lstweets.adapter=adpater
+        LoadPost()
+        adapter= MyTweetAdpater(this,ListTweets)
+        lstweets.adapter=adapter
     }
     inner class  MyTweetAdpater: BaseAdapter {
         var listNotesAdpater=ArrayList<TwitterModel>()
@@ -57,7 +58,6 @@ class MainActivityTwitter : AppCompatActivity() {
             this.listNotesAdpater=listNotesAdpater
             this.context=context
         }
-
         override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
 
             var mytweet=listNotesAdpater[p0]
@@ -90,11 +90,10 @@ class MainActivityTwitter : AppCompatActivity() {
                 return myView
             }else{
                 var myView=layoutInflater.inflate(R.layout.single_tweet,null)
-               // myView.txt_tweet.text = mytweet.tweetText
+                myView.txt_tweet.text = mytweet.tweetText
 
-                //myView.tweet_picture.setImageURI(mytweet.tweetImageURL)
-//                Picasso.with(context).load(mytweet.tweetImageURL).into(myView.tweet_picture)
-//
+               // myView.tweet_picture.setImageURI(mytweet.tweetImageURL)
+                Picasso.get().load(mytweet.tweetImageURL).into(myView.tweet_picture)
 //
 //                myRef.child("Users").child(mytweet.tweetPersonUID!!)
 //                    .addValueEventListener(object :ValueEventListener{
@@ -167,6 +166,7 @@ class MainActivityTwitter : AppCompatActivity() {
         }
     }
     var DownloadURL:String?=null
+
     fun UploadImage(bitmap:Bitmap){
         val storage= FirebaseStorage.getInstance()
         val storageRef=storage.getReferenceFromUrl("gs://my-firebase-60a1e.appspot.com")
@@ -177,18 +177,46 @@ class MainActivityTwitter : AppCompatActivity() {
         val baos= ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos)
         val data=baos.toByteArray()
+
         val uploadTask=imageRef.putBytes(data)
 
-        uploadTask.addOnFailureListener{
-            Toast.makeText(  this, "Upload Failed", Toast.LENGTH_SHORT).show()
-        }.addOnSuccessListener {
-                taskSnapshot->
 
-            // DownloadURL= taskSnapshot.getMetadata()?.getReference()?.getDownloadUrl().toString();
-//            DownloadURL=taskSnapshot.storage.downloadUrl.toString()
-            DownloadURL=taskSnapshot.getStorage().getDownloadUrl().getResult().toString()
-            Log.d("Download", DownloadURL!!)
-        }
+      uploadTask.addOnCompleteListener(OnCompleteListener {
+          if (it.isSuccessful)
+          {
+              it.getResult().getStorage().getDownloadUrl().addOnSuccessListener {
+                  DownloadURL=it.toString()
+                  Log.d("imageLink",DownloadURL!!)
+              }
+          }
+      }).addOnFailureListener{
+          Log.d("imageLinkException","Firebase Storage Exception")
+      }
     }
 
+    fun LoadPost(){
+        myRef!!.child("posts").addValueEventListener(object : ValueEventListener{
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                try {
+                    ListTweets.clear()
+                    var td= dataSnapshot!!.value as HashMap<String,Any>
+                    for(key in td.keys){
+                        var post= td[key] as HashMap<String,Any>
+                        ListTweets.add(TwitterModel(key,post["text"] as String, post["postImage"] as String, post["userUID"] as String))
+                    }
+
+                    adapter!!.notifyDataSetChanged()
+                }catch (e: Exception){
+                    e.printStackTrace()
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(applicationContext,"error found",Toast.LENGTH_LONG).show()
+            }
+
+        })
+    }
 }
+
+
