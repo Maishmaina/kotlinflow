@@ -13,6 +13,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Toast
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -20,7 +23,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main_twitter.*
 import kotlinx.android.synthetic.main.add_twitter.view.*
 import kotlinx.android.synthetic.main.single_tweet.view.*
@@ -40,16 +42,16 @@ class MainActivityTwitter : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_twitter)
-
         var b: Bundle? =intent.extras
         if (b!=null) {
             myemail=b.getString("email")
             UserUID=b.getString("uid")
         }
-        //dummy data source
+        //data source
         LoadPost()
         adapter= MyTweetAdpater(this,ListTweets)
         lstweets.adapter=adapter
+        MobileAds.initialize(this) {}
     }
     inner class  MyTweetAdpater: BaseAdapter {
         var listNotesAdpater=ArrayList<TwitterModel>()
@@ -58,6 +60,7 @@ class MainActivityTwitter : AppCompatActivity() {
             this.listNotesAdpater=listNotesAdpater
             this.context=context
         }
+        @SuppressLint("MissingPermission")
         override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
 
             var mytweet=listNotesAdpater[p0]
@@ -70,7 +73,6 @@ class MainActivityTwitter : AppCompatActivity() {
                 })
                 myView.iv_post.setOnClickListener(View.OnClickListener {
                     //upload server
-
                     myRef!!.child("posts").push().setValue(
                         PostInfo(UserUID!!,
                             myView.etPost.text.toString(), DownloadURL!!))
@@ -82,50 +84,41 @@ class MainActivityTwitter : AppCompatActivity() {
                 var myView=layoutInflater.inflate(R.layout.loading_tweet,null)
                 return myView
             } else if(mytweet.tweetPersonUID.equals("ads")){
-                var myView=layoutInflater.inflate(R.layout.single_tweet,null)
+                var myView=layoutInflater.inflate(R.layout.ads_tweet,null)
 
-//                var mAdView = myView.findViewById(R.id.adView) as AdView
-//                val adRequest = AdRequest.Builder().build()
-//                mAdView.loadAd(adRequest)
+                var mAdView = myView.findViewById(R.id.adView) as AdView
+                val adRequest = AdRequest.Builder().build()
+                mAdView.loadAd(adRequest)
                 return myView
             }else{
                 var myView=layoutInflater.inflate(R.layout.single_tweet,null)
                 myView.txt_tweet.text = mytweet.tweetText
 
-               // myView.tweet_picture.setImageURI(mytweet.tweetImageURL)
                 Picasso.get().load(mytweet.tweetImageURL).into(myView.tweet_picture)
-//
-//                myRef.child("Users").child(mytweet.tweetPersonUID!!)
-//                    .addValueEventListener(object :ValueEventListener{
-//
-//                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-//
-//                            try {
-//
-//                                var td= dataSnapshot!!.value as HashMap<String,Any>
-//
-//                                for(key in td.keys){
-//
-//                                    var userInfo= td[key] as String
-//                                    if(key.equals("ProfileImage")){
-//                                        Picasso.with(context).load(userInfo).into(myView.picture_path)
-//                                    }else{
-//                                        myView.txtUserName.text = userInfo
-//                                    }
-//
-//
-//
-//                                }
-//
-//                            }catch (ex:Exception){}
-//
-//
-//                        }
-//
-//                        override fun onCancelled(p0: DatabaseError) {
-//
-//                        }
-//                    })
+                myRef?.child("Users")?.child(mytweet.tweetPersonUID!!)
+                    ?.addValueEventListener(object :ValueEventListener{
+
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            try {
+
+                                var td= dataSnapshot!!.value as HashMap<String,Any>
+                                for(key in td.keys){
+
+                                    var userInfo= td[key] as String
+                                    if(key.equals("ProfileImage")){
+                                        Picasso.get().load(userInfo).into(myView.picture_path)
+                                    }else{
+                                        myView.txtUserName.text = userInfo
+                                    }
+                                }
+
+                            }catch (ex:Exception){ex.printStackTrace()}
+
+                        }
+                        override fun onCancelled(p0: DatabaseError) {
+
+                        }
+                    })
 
                 return myView
             }
@@ -168,6 +161,8 @@ class MainActivityTwitter : AppCompatActivity() {
     var DownloadURL:String?=null
 
     fun UploadImage(bitmap:Bitmap){
+        ListTweets.add(0, TwitterModel("0","loading","loading","loading"))
+        adapter?.notifyDataSetChanged()
         val storage= FirebaseStorage.getInstance()
         val storageRef=storage.getReferenceFromUrl("gs://my-firebase-60a1e.appspot.com")
         val df= SimpleDateFormat("ddMMyyyyHHmmss")
@@ -180,20 +175,20 @@ class MainActivityTwitter : AppCompatActivity() {
 
         val uploadTask=imageRef.putBytes(data)
 
-
       uploadTask.addOnCompleteListener(OnCompleteListener {
           if (it.isSuccessful)
           {
               it.getResult().getStorage().getDownloadUrl().addOnSuccessListener {
                   DownloadURL=it.toString()
-                  Log.d("imageLink",DownloadURL!!)
+                  ListTweets.removeAt(0)
+                  adapter?.notifyDataSetChanged()
+//                  Log.d("imageLink",DownloadURL!!)
               }
           }
       }).addOnFailureListener{
           Log.d("imageLinkException","Firebase Storage Exception")
       }
     }
-
     fun LoadPost(){
         myRef!!.child("posts").addValueEventListener(object : ValueEventListener{
 
@@ -201,11 +196,13 @@ class MainActivityTwitter : AppCompatActivity() {
                 try {
                     ListTweets.clear()
                     var td= dataSnapshot!!.value as HashMap<String,Any>
+                    Log.d("fireresult",td.toString())
+                    ListTweets.add(TwitterModel("o","add","add","add"));
+                    ListTweets.add(TwitterModel("09","ads","ads","ads"));
                     for(key in td.keys){
                         var post= td[key] as HashMap<String,Any>
                         ListTweets.add(TwitterModel(key,post["text"] as String, post["postImage"] as String, post["userUID"] as String))
                     }
-
                     adapter!!.notifyDataSetChanged()
                 }catch (e: Exception){
                     e.printStackTrace()

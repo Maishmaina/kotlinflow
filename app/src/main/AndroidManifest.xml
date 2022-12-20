@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dan.kotlinflow">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -12,6 +13,12 @@
         android:roundIcon="@drawable/icon_note"
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinFlow">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8128704717631015/7323503046"/>
+        <meta-data
+            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+            android:value="true"/>
         <activity android:name=".MainActivityTwitter"></activity>
         <activity
             android:name=".Login"
@@ -37,6 +44,6 @@
             android:name=".TicTao"
             android:exported="true" />
         <activity android:name=".MainActivity" />
-    </application>
 
+    </application>
 </manifest>
