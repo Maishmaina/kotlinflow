@@ -13,9 +13,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Toast
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
+//import com.google.android.gms.ads.AdRequest
+//import com.google.android.gms.ads.AdView
+//import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -34,11 +34,11 @@ import kotlin.collections.ArrayList
 class MainActivityTwitter : AppCompatActivity() {
     private var database= FirebaseDatabase.getInstance()
     private var myRef=database?.reference
-
     var ListTweets=ArrayList<TwitterModel>()
     var adapter:MyTweetAdpater?=null
     var myemail:String?=null
     var UserUID: String? = null
+//    lateinit var mAdView : AdView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_twitter)
@@ -51,7 +51,7 @@ class MainActivityTwitter : AppCompatActivity() {
         LoadPost()
         adapter= MyTweetAdpater(this,ListTweets)
         lstweets.adapter=adapter
-        MobileAds.initialize(this) {}
+
     }
     inner class  MyTweetAdpater: BaseAdapter {
         var listNotesAdpater=ArrayList<TwitterModel>()
@@ -62,34 +62,38 @@ class MainActivityTwitter : AppCompatActivity() {
         }
         @SuppressLint("MissingPermission")
         override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
-
             var mytweet=listNotesAdpater[p0]
 
-            if(mytweet.tweetPersonUID.equals("add")) {
+            if(mytweet.tweetPersonUID!!.equals("add")) {
                 var myView = layoutInflater.inflate(R.layout.add_twitter, null)
-
                 myView.iv_attach.setOnClickListener(View.OnClickListener {
                     loadImage()
                 })
                 myView.iv_post.setOnClickListener(View.OnClickListener {
                     //upload server
+                    if(!DownloadURL!!.equals(null)){
                     myRef!!.child("posts").push().setValue(
                         PostInfo(UserUID!!,
                             myView.etPost.text.toString(), DownloadURL!!))
 
                     myView.etPost.setText("")
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Some Fields are missing",Toast.LENGTH_SHORT).show()
+                    }
                 })
                 return myView
-            } else if(mytweet.tweetPersonUID.equals("loading")){
+            } else if(mytweet.tweetPersonUID!!.equals("loading")){
                 var myView=layoutInflater.inflate(R.layout.loading_tweet,null)
                 return myView
-            } else if(mytweet.tweetPersonUID.equals("ads")){
-                var myView=layoutInflater.inflate(R.layout.ads_tweet,null)
+//            }
+//            else if(mytweet.tweetPersonUID.equals("ads")){
+//                var myView=layoutInflater.inflate(R.layout.ads_tweet,null)
 
-                var mAdView = myView.findViewById(R.id.adView) as AdView
-                val adRequest = AdRequest.Builder().build()
-                mAdView.loadAd(adRequest)
-                return myView
+//                var mAdView = myView.findViewById(R.id.adView) as AdView
+//                val adRequest = AdRequest.Builder().build()
+//                mAdView.loadAd(adRequest)
+
+//                return myView
             }else{
                 var myView=layoutInflater.inflate(R.layout.single_tweet,null)
                 myView.txt_tweet.text = mytweet.tweetText
@@ -97,10 +101,8 @@ class MainActivityTwitter : AppCompatActivity() {
                 Picasso.get().load(mytweet.tweetImageURL).into(myView.tweet_picture)
                 myRef?.child("Users")?.child(mytweet.tweetPersonUID!!)
                     ?.addValueEventListener(object :ValueEventListener{
-
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             try {
-
                                 var td= dataSnapshot!!.value as HashMap<String,Any>
                                 for(key in td.keys){
 
@@ -167,12 +169,11 @@ class MainActivityTwitter : AppCompatActivity() {
         val storageRef=storage.getReferenceFromUrl("gs://my-firebase-60a1e.appspot.com")
         val df= SimpleDateFormat("ddMMyyyyHHmmss")
         val dateObj= Date()
-        val imagePath=myemail?.substring(0,4)+df.format(dateObj)+".jpg"
+        val imagePath=myemail!!.substring(0,4)+df.format(dateObj)+".jpg"
         var imageRef=storageRef.child("imagesPost/"+imagePath)
         val baos= ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos)
         val data=baos.toByteArray()
-
         val uploadTask=imageRef.putBytes(data)
 
       uploadTask.addOnCompleteListener(OnCompleteListener {
@@ -198,7 +199,7 @@ class MainActivityTwitter : AppCompatActivity() {
                     var td= dataSnapshot!!.value as HashMap<String,Any>
                     Log.d("fireresult",td.toString())
                     ListTweets.add(TwitterModel("o","add","add","add"));
-                    ListTweets.add(TwitterModel("09","ads","ads","ads"));
+//                    ListTweets.add(TwitterModel("09","ads","ads","ads"));
                     for(key in td.keys){
                         var post= td[key] as HashMap<String,Any>
                         ListTweets.add(TwitterModel(key,post["text"] as String, post["postImage"] as String, post["userUID"] as String))

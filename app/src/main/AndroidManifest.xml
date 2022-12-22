@@ -13,12 +13,17 @@
         android:roundIcon="@drawable/icon_note"
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinFlow">
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-8128704717631015/7323503046"/>
-        <meta-data
-            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
-            android:value="true"/>
+
+<!--        <meta-data-->
+<!--            android:name="com.google.android.gms.version"-->
+<!--            android:value="@integer/google_play_services_version" />-->
+<!--        <meta-data-->
+<!--            android:name="com.google.android.gms.ads.AD_MANAGER_APP"-->
+<!--            android:value="true" />-->
+<!--        <meta-data-->
+<!--            android:name="com.google.android.gms.ads.APPLICATION_ID"-->
+<!--            android:value="@string/ADD_UNIT_ID"/>-->
+
         <activity android:name=".MainActivityTwitter"></activity>
         <activity
             android:name=".Login"
