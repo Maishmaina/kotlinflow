@@ -30,7 +30,6 @@ import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-
 class MainActivityTwitter : AppCompatActivity() {
     private var database= FirebaseDatabase.getInstance()
     private var myRef=database?.reference
